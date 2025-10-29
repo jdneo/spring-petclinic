@@ -113,8 +113,9 @@ class PetTests {
 		pet.addVisit(visit3);
 
 		assertThat(pet.getVisits()).hasSize(3);
-		// Visits should be maintained in insertion order (Set maintains insertion order
-		// via LinkedHashSet)
+		// Verify visits maintain insertion order (LinkedHashSet preserves insertion
+		// order,
+		// not chronological order by date)
 		assertThat(pet.getVisits()).containsExactly(visit2, visit1, visit3);
 	}
 
