@@ -38,4 +38,71 @@ class VetTests {
 		assertThat(other.getId()).isEqualTo(vet.getId());
 	}
 
+	@Test
+	void testAddSpecialty() {
+		Vet vet = new Vet();
+		Specialty dentistry = new Specialty();
+		dentistry.setId(1);
+		dentistry.setName("dentistry");
+
+		vet.addSpecialty(dentistry);
+
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(1);
+		assertThat(vet.getSpecialties()).hasSize(1);
+		assertThat(vet.getSpecialties()).contains(dentistry);
+	}
+
+	@Test
+	void testGetSpecialtiesInitiallyEmpty() {
+		Vet vet = new Vet();
+
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(0);
+		assertThat(vet.getSpecialties()).isEmpty();
+	}
+
+	@Test
+	void testGetSpecialtiesSorted() {
+		Vet vet = new Vet();
+
+		Specialty surgery = new Specialty();
+		surgery.setId(1);
+		surgery.setName("surgery");
+
+		Specialty dentistry = new Specialty();
+		dentistry.setId(2);
+		dentistry.setName("dentistry");
+
+		Specialty radiology = new Specialty();
+		radiology.setId(3);
+		radiology.setName("radiology");
+
+		// Add in non-alphabetical order
+		vet.addSpecialty(surgery);
+		vet.addSpecialty(radiology);
+		vet.addSpecialty(dentistry);
+
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(3);
+		// Should be sorted alphabetically by name
+		assertThat(vet.getSpecialties()).containsExactly(dentistry, radiology, surgery);
+	}
+
+	@Test
+	void testMultipleSpecialties() {
+		Vet vet = new Vet();
+
+		Specialty specialty1 = new Specialty();
+		specialty1.setId(1);
+		specialty1.setName("dentistry");
+
+		Specialty specialty2 = new Specialty();
+		specialty2.setId(2);
+		specialty2.setName("surgery");
+
+		vet.addSpecialty(specialty1);
+		vet.addSpecialty(specialty2);
+
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+		assertThat(vet.getSpecialties()).hasSize(2);
+	}
+
 }
