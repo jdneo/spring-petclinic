@@ -38,4 +38,54 @@ class VetTests {
 		assertThat(other.getId()).isEqualTo(vet.getId());
 	}
 
+	@Test
+	void testAddSpecialty() {
+		Vet vet = new Vet();
+		Specialty specialty = new Specialty();
+		specialty.setName("radiology");
+
+		vet.addSpecialty(specialty);
+
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(1);
+		assertThat(vet.getSpecialties()).hasSize(1);
+		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("radiology");
+	}
+
+	@Test
+	void testGetNrOfSpecialtiesWithNone() {
+		Vet vet = new Vet();
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(0);
+	}
+
+	@Test
+	void testGetSpecialtiesReturnsSortedList() {
+		Vet vet = new Vet();
+
+		Specialty surgery = new Specialty();
+		surgery.setName("surgery");
+
+		Specialty dentistry = new Specialty();
+		dentistry.setName("dentistry");
+
+		Specialty radiology = new Specialty();
+		radiology.setName("radiology");
+
+		vet.addSpecialty(surgery);
+		vet.addSpecialty(dentistry);
+		vet.addSpecialty(radiology);
+
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(3);
+		assertThat(vet.getSpecialties()).hasSize(3);
+		// Verify specialties are sorted alphabetically
+		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
+		assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("radiology");
+		assertThat(vet.getSpecialties().get(2).getName()).isEqualTo("surgery");
+	}
+
+	@Test
+	void testGetSpecialtiesWithNoSpecialties() {
+		Vet vet = new Vet();
+		assertThat(vet.getSpecialties()).isEmpty();
+	}
+
 }
