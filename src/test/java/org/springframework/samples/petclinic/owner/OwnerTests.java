@@ -172,7 +172,7 @@ class OwnerTests {
 
 		assertThatThrownBy(() -> owner.addVisit(null, visit))
 			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessageContaining("Pet identifier must not be null");
+			.hasMessageContaining("Pet identifier must not be null!");
 	}
 
 	@Test
@@ -181,7 +181,7 @@ class OwnerTests {
 
 		assertThatThrownBy(() -> owner.addVisit(1, null))
 			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessageContaining("Visit must not be null");
+			.hasMessageContaining("Visit must not be null!");
 	}
 
 	@Test
@@ -197,7 +197,7 @@ class OwnerTests {
 
 		assertThatThrownBy(() -> owner.addVisit(999, visit))
 			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessageContaining("Invalid Pet identifier");
+			.hasMessageContaining("Invalid Pet identifier!");
 	}
 
 	@Test
