@@ -77,7 +77,7 @@ class OwnerTests {
 	}
 
 	@Test
-	void testAddPetThatAlreadyHasId() {
+	void testAddPetWithExistingIdShouldNotBeAdded() {
 		owner.addPet(pet1);
 
 		assertThat(owner.getPets()).doesNotContain(pet1);
