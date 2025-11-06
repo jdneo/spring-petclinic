@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.vet;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.SerializationUtils;
 
@@ -24,6 +25,15 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Dave Syer
  */
 class VetTests {
+
+	private Vet vet;
+
+	@BeforeEach
+	void setUp() {
+		vet = new Vet();
+		vet.setFirstName("James");
+		vet.setLastName("Carter");
+	}
 
 	@Test
 	void testSerialization() {
@@ -36,6 +46,67 @@ class VetTests {
 		assertThat(other.getFirstName()).isEqualTo(vet.getFirstName());
 		assertThat(other.getLastName()).isEqualTo(vet.getLastName());
 		assertThat(other.getId()).isEqualTo(vet.getId());
+	}
+
+	@Test
+	void testGetSpecialtiesReturnsEmptyListInitially() {
+		assertThat(vet.getSpecialties()).isEmpty();
+	}
+
+	@Test
+	void testAddSpecialty() {
+		Specialty specialty = new Specialty();
+		specialty.setName("dentistry");
+
+		vet.addSpecialty(specialty);
+
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(1);
+		assertThat(vet.getSpecialties()).hasSize(1);
+		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
+	}
+
+	@Test
+	void testAddMultipleSpecialties() {
+		Specialty specialty1 = new Specialty();
+		specialty1.setName("surgery");
+
+		Specialty specialty2 = new Specialty();
+		specialty2.setName("radiology");
+
+		vet.addSpecialty(specialty1);
+		vet.addSpecialty(specialty2);
+
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+		assertThat(vet.getSpecialties()).hasSize(2);
+	}
+
+	@Test
+	void testGetSpecialtiesAreSortedByName() {
+		Specialty specialty1 = new Specialty();
+		specialty1.setName("surgery");
+
+		Specialty specialty2 = new Specialty();
+		specialty2.setName("dentistry");
+
+		Specialty specialty3 = new Specialty();
+		specialty3.setName("radiology");
+
+		vet.addSpecialty(specialty1);
+		vet.addSpecialty(specialty2);
+		vet.addSpecialty(specialty3);
+
+		assertThat(vet.getSpecialties()).extracting("name").containsExactly("dentistry", "radiology", "surgery");
+	}
+
+	@Test
+	void testGetNrOfSpecialties() {
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(0);
+
+		Specialty specialty = new Specialty();
+		specialty.setName("dentistry");
+		vet.addSpecialty(specialty);
+
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(1);
 	}
 
 }
