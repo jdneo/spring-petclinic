@@ -31,10 +31,12 @@ class VisitTests {
 
 	@Test
 	void testDefaultConstructorSetsCurrentDate() {
+		LocalDate beforeCreation = LocalDate.now();
 		Visit visit = new Visit();
+		LocalDate afterCreation = LocalDate.now();
 
 		assertThat(visit.getDate()).isNotNull();
-		assertThat(visit.getDate()).isEqualTo(LocalDate.now());
+		assertThat(visit.getDate()).isBetween(beforeCreation, afterCreation);
 	}
 
 	@Test
