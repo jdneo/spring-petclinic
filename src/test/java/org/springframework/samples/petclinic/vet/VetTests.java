@@ -38,4 +38,78 @@ class VetTests {
 		assertThat(other.getId()).isEqualTo(vet.getId());
 	}
 
+	@Test
+	void testGetSpecialtiesReturnsEmptyListInitially() {
+		Vet vet = new Vet();
+		assertThat(vet.getSpecialties()).isEmpty();
+	}
+
+	@Test
+	void testAddSpecialty() {
+		Vet vet = new Vet();
+		Specialty specialty = new Specialty();
+		specialty.setName("dentistry");
+
+		vet.addSpecialty(specialty);
+
+		assertThat(vet.getSpecialties()).hasSize(1);
+		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
+	}
+
+	@Test
+	void testGetNrOfSpecialties() {
+		Vet vet = new Vet();
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(0);
+
+		Specialty specialty1 = new Specialty();
+		specialty1.setName("dentistry");
+		vet.addSpecialty(specialty1);
+
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(1);
+
+		Specialty specialty2 = new Specialty();
+		specialty2.setName("surgery");
+		vet.addSpecialty(specialty2);
+
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+	}
+
+	@Test
+	void testGetSpecialtiesReturnsSortedList() {
+		Vet vet = new Vet();
+
+		Specialty surgery = new Specialty();
+		surgery.setName("surgery");
+		vet.addSpecialty(surgery);
+
+		Specialty dentistry = new Specialty();
+		dentistry.setName("dentistry");
+		vet.addSpecialty(dentistry);
+
+		Specialty radiology = new Specialty();
+		radiology.setName("radiology");
+		vet.addSpecialty(radiology);
+
+		assertThat(vet.getSpecialties()).hasSize(3);
+		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
+		assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("radiology");
+		assertThat(vet.getSpecialties().get(2).getName()).isEqualTo("surgery");
+	}
+
+	@Test
+	void testAddMultipleSpecialties() {
+		Vet vet = new Vet();
+
+		Specialty specialty1 = new Specialty();
+		specialty1.setName("dentistry");
+		Specialty specialty2 = new Specialty();
+		specialty2.setName("surgery");
+
+		vet.addSpecialty(specialty1);
+		vet.addSpecialty(specialty2);
+
+		assertThat(vet.getSpecialties()).hasSize(2);
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+	}
+
 }
