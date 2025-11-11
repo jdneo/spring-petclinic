@@ -38,4 +38,48 @@ class VetTests {
 		assertThat(other.getId()).isEqualTo(vet.getId());
 	}
 
+	@Test
+	void testGetSpecialties() {
+		Vet vet = new Vet();
+		assertThat(vet.getSpecialties()).isEmpty();
+	}
+
+	@Test
+	void testAddSpecialty() {
+		Vet vet = new Vet();
+		Specialty specialty = new Specialty();
+		specialty.setName("Dentistry");
+		vet.addSpecialty(specialty);
+		assertThat(vet.getSpecialties()).hasSize(1).contains(specialty);
+	}
+
+	@Test
+	void testGetNrOfSpecialties() {
+		Vet vet = new Vet();
+		assertThat(vet.getNrOfSpecialties()).isZero();
+		Specialty specialty1 = new Specialty();
+		specialty1.setName("Surgery");
+		vet.addSpecialty(specialty1);
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(1);
+		Specialty specialty2 = new Specialty();
+		specialty2.setName("Radiology");
+		vet.addSpecialty(specialty2);
+		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+	}
+
+	@Test
+	void testGetSpecialtiesSorted() {
+		Vet vet = new Vet();
+		Specialty specialty1 = new Specialty();
+		specialty1.setName("Surgery");
+		Specialty specialty2 = new Specialty();
+		specialty2.setName("Dentistry");
+		Specialty specialty3 = new Specialty();
+		specialty3.setName("Radiology");
+		vet.addSpecialty(specialty1);
+		vet.addSpecialty(specialty2);
+		vet.addSpecialty(specialty3);
+		assertThat(vet.getSpecialties()).containsExactly(specialty2, specialty3, specialty1);
+	}
+
 }
